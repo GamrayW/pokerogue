@@ -60,24 +60,24 @@ export class InputsController {
 			this.loseFocus()
 		})
 
-        if (typeof this.scene.input.gamepad !== 'undefined') {
-            this.scene.input.gamepad.on('connected', function (thisGamepad) {
-                this.refreshGamepads();
-                this.setupGamepad(thisGamepad);
-            }, this);
+        // if (typeof this.scene.input.gamepad !== 'undefined') {
+        //     this.scene.input.gamepad.on('connected', function (thisGamepad) {
+        //         this.refreshGamepads();
+        //         this.setupGamepad(thisGamepad);
+        //     }, this);
 
-            // Check to see if the gamepad has already been setup by the browser
-            this.scene.input.gamepad.refreshPads();
-            if (this.scene.input.gamepad.total) {
-                this.refreshGamepads();
-                for (const thisGamepad of this.gamepads) {
-                    this.scene.input.gamepad.emit('connected', thisGamepad);
-                }
-            }
+        //     // Check to see if the gamepad has already been setup by the browser
+        //     this.scene.input.gamepad.refreshPads();
+        //     if (this.scene.input.gamepad.total) {
+        //         this.refreshGamepads();
+        //         for (const thisGamepad of this.gamepads) {
+        //             this.scene.input.gamepad.emit('connected', thisGamepad);
+        //         }
+        //     }
 
-            this.scene.input.gamepad.on('down', this.gamepadButtonDown, this);
-            this.scene.input.gamepad.on('up', this.gamepadButtonUp, this);
-        }
+        //     this.scene.input.gamepad.on('down', this.gamepadButtonDown, this);
+        //     this.scene.input.gamepad.on('up', this.gamepadButtonUp, this);
+        // }
 
         // Keyboard
         this.setupKeyboardControls();

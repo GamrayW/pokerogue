@@ -14,7 +14,8 @@ interface RankingEntry {
 // Don't forget to update translations when adding a new category
 enum ScoreboardCategory {
   DAILY,
-  WEEKLY
+  WEEKLY,
+  FRIENDS
 }
 
 export class DailyRunScoreboard extends Phaser.GameObjects.Container {
@@ -102,7 +103,7 @@ export class DailyRunScoreboard extends Phaser.GameObjects.Container {
     this.add(this.loadingLabel);
 
     this.page = 1;
-    this.category = ScoreboardCategory.DAILY;
+    this.category = ScoreboardCategory.FRIENDS;
   }
 
   updateRankings(rankings: RankingEntry[]) {
@@ -125,6 +126,10 @@ export class DailyRunScoreboard extends Phaser.GameObjects.Container {
           break;
         case ScoreboardCategory.WEEKLY:
           scoreLabel.x -= 16;
+          break;
+        case ScoreboardCategory.FRIENDS:
+          const waveLabelFriend = addTextObject(this.scene, 68, 0, wave, TextStyle.WINDOW, { fontSize: '54px' });
+          entryContainer.add(waveLabelFriend);
           break;
       }
 
@@ -150,9 +155,9 @@ export class DailyRunScoreboard extends Phaser.GameObjects.Container {
       this.page = page = 1;
 
     Utils.executeIf(category !== this.category || this.pageCount === undefined,
-      () =>  Utils.apiFetch(`daily/rankingpagecount?category=${category}`).then(response => response.json()).then(count => this.pageCount = count)
+      () =>  Utils.apiFetch(`daily/rankingpagecount?category=${category}`, true).then(response => response.json()).then(count => this.pageCount = count)
     ).then(() => {
-      Utils.apiFetch(`daily/rankings?category=${category}&page=${page}`)
+      Utils.apiFetch(`daily/rankings?category=${category}&page=${page}`, true)
         .then(response => response.json())
         .then(jsonResponse => {
           this.page = page;

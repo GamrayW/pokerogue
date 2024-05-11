@@ -42,6 +42,11 @@ export default class TitleUiHandler extends OptionSelectUiHandler {
     this.playerCountLabel.setOrigin(1, 0);
     this.titleContainer.add(this.playerCountLabel);
 
+    this.friendOnlineCountLabel = addTextObject(this.scene, (this.scene.game.canvas.width / 6) - 2, (this.scene.game.canvas.height / 6) - 90 - 8, `? ${i18next.t("menu:friendsOnline")}`, TextStyle.MESSAGE, { fontSize: '54px' });
+    this.friendOnlineCountLabel.setOrigin(1, 0);
+    this.titleContainer.add(this.friendOnlineCountLabel);
+
+
     this.splashMessageText = addTextObject(this.scene, logo.x + 64, logo.y + logo.displayHeight - 8, '', TextStyle.MONEY, { fontSize: '54px' });
     this.splashMessageText.setOrigin(0.5, 0.5);
     this.splashMessageText.setAngle(-20)
@@ -71,6 +76,17 @@ export default class TitleUiHandler extends OptionSelectUiHandler {
       });
   }
 
+  updateFriendOnlineStats(): void {
+    Utils.apiFetch(`account/friendsonline`, true)
+      .then(request => request.json())
+      .then(stats => {
+        this.friendOnlineCountLabel.setText(`${stats.friendsOnline}/${stats.friendsAmount} ${i18next.t("menu:friendsOnline")}`);
+      })
+      .catch(err => {
+        console.error("Failed to fetch friends online stats:\n", err);
+      });
+  }
+
   show(args: any[]): boolean {
     const ret = super.show(args);
 
@@ -83,8 +99,10 @@ export default class TitleUiHandler extends OptionSelectUiHandler {
       this.dailyRunScoreboard.update();
 
       this.updateTitleStats();
+      this.updateFriendOnlineStats();
 
       this.titleStatsTimer = setInterval(() => this.updateTitleStats(), 60000);
+      this.friendsOnlineTimer = setInterval(() => this.updateFriendOnlineStats(), 60000);
 
       this.scene.tweens.add({
         targets: [ this.titleContainer, ui.getMessageHandler().bg ],
@@ -104,6 +122,9 @@ export default class TitleUiHandler extends OptionSelectUiHandler {
 
     clearInterval(this.titleStatsTimer);
     this.titleStatsTimer = null;
+
+    clearInterval(this.friendsOnlineTimer);
+    this.friendsOnlineTimer = null;
 
     this.scene.tweens.add({
       targets: [ this.titleContainer, ui.getMessageHandler().bg ],

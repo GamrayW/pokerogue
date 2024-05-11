@@ -9,6 +9,7 @@ export const menuUiHandler: SimpleTranslationEntries = {
     "EGG_GACHA": "Egg Gacha",
     "MANAGE_DATA": "Manage Data",
     "COMMUNITY": "Community",
+    "FRIENDS": "Friends",
     "RETURN_TO_TITLE": "Return To Title",
     "LOG_OUT": "Log Out",
     "slot": "Slot {{slotNumber}}",

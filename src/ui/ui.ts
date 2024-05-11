@@ -35,6 +35,7 @@ import SavingIconHandler from './saving-icon-handler';
 import UnavailableModalUiHandler from './unavailable-modal-ui-handler';
 import OutdatedModalUiHandler from './outdated-modal-ui-handler';
 import SessionReloadModalUiHandler from './session-reload-modal-ui-handler';
+import AddFriendFormUiHandler from './add-friend-form-ui-handler';
 import {Button} from "../enums/buttons";
 
 export enum Mode {
@@ -63,6 +64,7 @@ export enum Mode {
   EGG_GACHA,
   LOGIN_FORM,
   REGISTRATION_FORM,
+  ADD_FRIEND_FORM,
   LOADING,
   SESSION_RELOAD,
   UNAVAILABLE,
@@ -92,6 +94,7 @@ const noTransitionModes = [
   Mode.VOUCHERS,
   Mode.LOGIN_FORM,
   Mode.REGISTRATION_FORM,
+  Mode.ADD_FRIEND_FORM,
   Mode.LOADING,
   Mode.SESSION_RELOAD,
   Mode.UNAVAILABLE,
@@ -144,6 +147,7 @@ export default class UI extends Phaser.GameObjects.Container {
       new EggGachaUiHandler(scene),
       new LoginFormUiHandler(scene),
       new RegistrationFormUiHandler(scene),
+      new AddFriendFormUiHandler(scene),
       new LoadingModalUiHandler(scene),
       new SessionReloadModalUiHandler(scene),
       new UnavailableModalUiHandler(scene),

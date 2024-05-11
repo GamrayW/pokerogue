@@ -18,6 +18,7 @@ export enum MenuOptions {
   VOUCHERS,
   EGG_LIST,
   EGG_GACHA,
+  FRIENDS,
   MANAGE_DATA,
   COMMUNITY,
   RETURN_TO_TITLE,
@@ -64,12 +65,12 @@ export default class MenuUiHandler extends MessageUiHandler {
     menuMessageText.setOrigin(0, 0);
 
     this.optionSelectText = addTextObject(this.scene, 0, 0, this.menuOptions.map(o => `${i18next.t(`menuUiHandler:${MenuOptions[o]}`)}`).join('\n'), TextStyle.WINDOW, { maxLines: this.menuOptions.length });
-    this.optionSelectText.setLineSpacing(12);
+    this.optionSelectText.setLineSpacing(8);
     
     this.menuBg = addWindow(this.scene, (this.scene.game.canvas.width / 6) - (this.optionSelectText.displayWidth + 25), 0, this.optionSelectText.displayWidth + 23, (this.scene.game.canvas.height / 6) - 2);
     this.menuBg.setOrigin(0, 0);
 
-    this.optionSelectText.setPositionRelative(this.menuBg, 14, 6);
+    this.optionSelectText.setPositionRelative(this.menuBg, 14, 5);
 
     this.menuContainer.add(this.menuBg);
 
@@ -223,6 +224,44 @@ export default class MenuUiHandler extends MessageUiHandler {
       options: communityOptions
     };
 
+    const friendsOptions: OptionSelectItem[] = [
+      {
+        label: 'Add Friends',
+        handler: () => {
+          console.log("Adding friends")
+          this.scene.ui.setMode(Mode.ADD_FRIEND_FORM, {
+            buttonActions: [
+              () => {
+                console.log("WHAT")
+                this.scene.ui.revertMode();
+              }]
+          });
+          return true;
+        },
+        keepOpen: true
+      },
+      {
+        label: 'Show Friends',
+        handler: () => {
+          console.log("Showing friends")
+          return true;
+        },
+        keepOpen: true
+      },
+      {
+        label: i18next.t('menuUiHandler:cancel'),
+        handler: () => {
+          this.scene.ui.revertMode();
+          return true;
+        }
+      }
+    ]
+
+    this.friendsConfig = {
+      xOffset: 98,
+      options: friendsOptions
+    };
+
     this.setCursor(0);
 
     this.menuContainer.setVisible(false);
@@ -287,6 +326,10 @@ export default class MenuUiHandler extends MessageUiHandler {
         case MenuOptions.EGG_GACHA:
           ui.revertMode();
           ui.setOverlayMode(Mode.EGG_GACHA);
+          success = true;
+          break;
+        case MenuOptions.FRIENDS:
+          ui.setOverlayMode(Mode.MENU_OPTION_SELECT, this.friendsConfig);
           success = true;
           break;
         case MenuOptions.MANAGE_DATA:
@@ -376,7 +419,7 @@ export default class MenuUiHandler extends MessageUiHandler {
       this.menuContainer.add(this.cursorObj);
     }
 
-    this.cursorObj.setPositionRelative(this.menuBg, 7, 9 + this.cursor * 16);
+    this.cursorObj.setPositionRelative(this.menuBg, 7, 6.8 + this.cursor * 15.3);
 
     return ret;
   }

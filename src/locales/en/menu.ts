@@ -35,12 +35,18 @@ export const menu: SimpleTranslationEntries = {
     "boyOrGirl": "Are you a boy or a girl?",
     "boy": "Boy",
     "girl": "Girl",
+    "friendsRankings": "Friends Daily Ranking",
     "dailyRankings": "Daily Rankings",
     "weeklyRankings": "Weekly Rankings",
     "noRankings": "No Rankings",
     "loading": "Loading…",
     "playersOnline": "Players Online",
+    "friendsOnline": "Friends Online",
     "empty":"Empty",
     "yes":"Yes",
     "no":"No",
+    "addFriend": "Add a friend",
+    "add": "Add",
+    "addedFriend": "Added ",
+    "userNotFound": "User not found"
 } as const;
